@@ -95,9 +95,6 @@
         },
         "parameters": [
           {
-            "$ref": "#/components/parameters/content_type"
-          },
-          {
             "$ref": "#/components/parameters/paypal_request_id"
           }
         ],
@@ -191,9 +188,6 @@
           },
           {
             "$ref": "#/components/parameters/total_required"
-          },
-          {
-            "$ref": "#/components/parameters/content_type"
           }
         ],
         "security": [
@@ -268,9 +262,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
-          },
-          {
-            "$ref": "#/components/parameters/content_type"
           }
         ],
         "security": [
@@ -326,9 +317,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
-          },
-          {
-            "$ref": "#/components/parameters/content_type"
           }
         ],
         "security": [
@@ -422,9 +410,6 @@
         },
         "parameters": [
           {
-            "$ref": "#/components/parameters/content_type"
-          },
-          {
             "$ref": "#/components/parameters/paypal_request_id"
           }
         ],
@@ -516,9 +501,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
-          },
-          {
-            "$ref": "#/components/parameters/content_type"
           }
         ],
         "security": [
@@ -542,14 +524,6 @@
     {
       "name": "setup-tokens",
       "description": "Use the `/vault/setup-tokens` resource to create and retrieve temporary vault payment methods."
-    },
-    {
-      "name": "tokens",
-      "description": "Use the `/vault/tokens` resource to detokenize a vault token to retrieve details associated to the underlying payment source."
-    },
-    {
-      "name": "customers",
-      "description": "Use the `/vault/customers` resource to create, update, get and delete a customer."
     }
   ],
   "externalDocs": {
@@ -584,19 +558,6 @@
       }
     },
     "parameters": {
-      "content_type": {
-        "name": "Content-Type",
-        "description": "Specifies the request format.",
-        "in": "header",
-        "required": false,
-        "schema": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 255,
-          "pattern": "^[A-Za-z0-9/+-]+$",
-          "default": "application/json"
-        }
-      },
       "paypal_request_id": {
         "name": "PayPal-Request-Id",
         "description": "The server stores keys for 3 hours.",
@@ -663,18 +624,6 @@
         }
       }
     },
-    "responses": {
-      "default": {
-        "description": "The default response.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/error_default"
-            }
-          }
-        }
-      }
-    },
     "schemas": {
       "error_details": {
         "title": "Error Details",
@@ -707,347 +656,6 @@
           "issue"
         ]
       },
-      "error_default": {
-        "description": "The default error response.",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/error_400"
-          },
-          {
-            "$ref": "#/components/schemas/error_401"
-          },
-          {
-            "$ref": "#/components/schemas/error_403"
-          },
-          {
-            "$ref": "#/components/schemas/error_404"
-          },
-          {
-            "$ref": "#/components/schemas/error_409"
-          },
-          {
-            "$ref": "#/components/schemas/error_415"
-          },
-          {
-            "$ref": "#/components/schemas/error_422"
-          },
-          {
-            "$ref": "#/components/schemas/error_500"
-          },
-          {
-            "$ref": "#/components/schemas/error_503"
-          }
-        ]
-      },
-      "error_400": {
-        "type": "object",
-        "title": "400 Error",
-        "description": "Error response for 400",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "INVALID_REQUEST"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "Request is not well-formed, syntactically incorrect, or violates schema."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_401": {
-        "type": "object",
-        "title": "401 Error",
-        "description": "Error response for 401",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "AUTHENTICATION_FAILURE"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "Authentication failed due to missing authorization header, or invalid authentication credentials."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_403": {
-        "type": "object",
-        "title": "403 Error",
-        "description": "Error response for 403",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "NOT_AUTHORIZED"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "Authorization failed due to insufficient permissions."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_404": {
-        "type": "object",
-        "title": "404 Error",
-        "description": "Error response for 404",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "RESOURCE_NOT_FOUND"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "The specified resource does not exist."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_409": {
-        "type": "object",
-        "title": "409 Error",
-        "description": "Error response for 409",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "RESOURCE_CONFLICT"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "The server has detected a conflict while processing this request."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_415": {
-        "type": "object",
-        "title": "409 Error",
-        "description": "Error response for 415",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "UNSUPPORTED_MEDIA_TYPE"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "The server does not support the request payload's media type."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_422": {
-        "type": "object",
-        "title": "422 Error",
-        "description": "Error response for 422",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "UNPROCESSABLE_ENTITY"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "The requested action could not be performed, semantically incorrect, or failed business validation."
-            ]
-          },
-          "issues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        }
-      },
-      "error_500": {
-        "type": "object",
-        "title": "500 Error",
-        "description": "Error response for 500",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "INTERNAL_SERVER_ERROR"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "An internal server error occurred."
-            ]
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "enum": [
-              "https://developer.paypal.com/api/orders/v2/#error-INTERNAL_SERVER_ERROR"
-            ],
-            "readOnly": true
-          }
-        },
-        "example": {
-          "name": "INTERNAL_SERVER_ERROR",
-          "message": "An internal server error occurred.",
-          "debug_id": "90957fca61718",
-          "information_link": "https://developer.paypal.com/api/orders/v2/#error-INTERNAL_SERVER_ERROR"
-        }
-      },
-      "error_503": {
-        "type": "object",
-        "title": "503 Error",
-        "description": "Error response for 503",
-        "properties": {
-          "name": {
-            "type": "string",
-            "enum": [
-              "SERVICE_UNAVAILABLE"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "enum": [
-              "Service Unavailable."
-            ]
-          },
-          "debug_id": {
-            "type": "string",
-            "description": "The PayPal internal ID. Used for correlation purposes."
-          },
-          "information_link": {
-            "type": "string",
-            "description": "The information link, or URI, that shows detailed information about this error for the developer.",
-            "readOnly": true
-          }
-        },
-        "example": {
-          "name": "SERVICE_UNAVAILABLE",
-          "message": "Service Unavailable.",
-          "debug_id": "90957fca61718",
-          "information_link": "https://developer.paypal.com/docs/api/orders/v2/#error-SERVICE_UNAVAILABLE"
-        }
-      },
       "merchant_partner_customer_id": {
         "type": "string",
         "description": "The unique ID for a customer generated by PayPal.",
@@ -1061,8 +669,7 @@
         "description": "Customer in merchant's or partner's system of records.",
         "properties": {
           "id": {
-            "description": "The unique ID for a customer in merchant's or partner's system of records.",
-            "$ref": "#/components/schemas/merchant_partner_customer_id"
+            "$ref": "#/components/schemas/customerId"
           }
         }
       },
@@ -1156,219 +763,16 @@
         "description": "The processor information. Might be required for payment requests, such as direct credit card transactions.",
         "properties": {
           "avs_code": {
-            "description": "The address verification code for Visa, Discover, Mastercard, or American Express transactions.",
-            "type": "string",
-            "readOnly": true,
-            "enum": [
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F",
-              "G",
-              "I",
-              "M",
-              "N",
-              "P",
-              "R",
-              "S",
-              "U",
-              "W",
-              "X",
-              "Y",
-              "Z",
-              "Null",
-              "0",
-              "1",
-              "2",
-              "3",
-              "4"
-            ]
+            "$ref": "#/components/schemas/processor-response-avs-code"
           },
           "cvv_code": {
-            "description": "The card verification value code for for Visa, Discover, Mastercard, or American Express.",
-            "type": "string",
-            "readOnly": true,
-            "enum": [
-              "E",
-              "I",
-              "M",
-              "N",
-              "P",
-              "S",
-              "U",
-              "X",
-              "All others",
-              "0",
-              "1",
-              "2",
-              "3",
-              "4"
-            ]
+            "$ref": "#/components/schemas/processor-response-cvv-code"
           },
           "response_code": {
-            "description": "Processor response code for the non-PayPal payment processor errors.",
-            "type": "string",
-            "readOnly": true,
-            "enum": [
-              "0000",
-              "00N7",
-              "0100",
-              "0390",
-              "0500",
-              "0580",
-              "0800",
-              "0880",
-              "0R00",
-              "1000",
-              "10BR",
-              "1300",
-              "1310",
-              "1312",
-              "1317",
-              "1320",
-              "1330",
-              "1335",
-              "1340",
-              "1350",
-              "1360",
-              "1370",
-              "1380",
-              "1382",
-              "1384",
-              "1390",
-              "1393",
-              "5100",
-              "5110",
-              "5120",
-              "5130",
-              "5135",
-              "5140",
-              "5150",
-              "5160",
-              "5170",
-              "5180",
-              "5190",
-              "5200",
-              "5210",
-              "5400",
-              "5500",
-              "5650",
-              "5700",
-              "5710",
-              "5800",
-              "5900",
-              "5910",
-              "5920",
-              "5930",
-              "6300",
-              "7600",
-              "7700",
-              "7710",
-              "7800",
-              "7900",
-              "8000",
-              "8010",
-              "8020",
-              "8030",
-              "8100",
-              "8110",
-              "8220",
-              "9100",
-              "9500",
-              "9510",
-              "9520",
-              "9530",
-              "9540",
-              "9600",
-              "PCNR",
-              "PCVV",
-              "PPAD",
-              "PPAE",
-              "PPAG",
-              "PPAI",
-              "PPAR",
-              "PPAU",
-              "PPAV",
-              "PPAX",
-              "PPBG",
-              "PPC2",
-              "PPCE",
-              "PPCO",
-              "PPCR",
-              "PPCT",
-              "PPCU",
-              "PPD3",
-              "PPDC",
-              "PPDI",
-              "PPDV",
-              "PPEF",
-              "PPEL",
-              "PPER",
-              "PPEX",
-              "PPFE",
-              "PPFI",
-              "PPFR",
-              "PPFV",
-              "PPGR",
-              "PPH1",
-              "PPIF",
-              "PPII",
-              "PPIM",
-              "PPIT",
-              "PPLR",
-              "PPLS",
-              "PPMB",
-              "PPMC",
-              "PPMD",
-              "PPNC",
-              "PPNL",
-              "PPNT",
-              "PPPH",
-              "PPPI",
-              "PPPM",
-              "PPQC",
-              "PPRE",
-              "PPRF",
-              "PPRR",
-              "PPS0",
-              "PPS1",
-              "PPS2",
-              "PPS3",
-              "PPS4",
-              "PPS5",
-              "PPS6",
-              "PPSC",
-              "PPSD",
-              "PPSE",
-              "PPTE",
-              "PPTF",
-              "PPTI",
-              "PPTR",
-              "PPTT",
-              "PPTV",
-              "PPUA",
-              "PPUC",
-              "PPUE",
-              "PPUI",
-              "PPUP",
-              "PPUR",
-              "PPVC",
-              "PPVE",
-              "PPVT"
-            ]
+            "$ref": "#/components/schemas/processor-response-response-code"
           },
           "payment_advice_code": {
-            "description": "The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes.",
-            "type": "string",
-            "readOnly": true,
-            "enum": [
-              "01",
-              "02",
-              "03",
-              "21"
-            ]
+            "$ref": "#/components/schemas/processor-response-payment-advice-code"
           }
         }
       },
@@ -1386,17 +790,13 @@
             "pattern": "^[a-zA-Z0-9-_@.:&+=*^'~#!$%()]+$"
           },
           "time": {
-            "description": "The date and time when the instrument was verified.",
-            "readOnly": true,
-            "$ref": "#/components/schemas/date_time"
+            "$ref": "#/components/schemas/cardVerificationDetailsTime"
           },
           "amount": {
-            "description": "The amount used for card verification.",
-            "$ref": "#/components/schemas/money"
+            "$ref": "#/components/schemas/cardVerificationDetailsAmount"
           },
           "processor_response": {
-            "description": "The processor information.",
-            "$ref": "#/components/schemas/processor_response"
+            "$ref": "#/components/schemas/cardVerificationDetailsProcessorResponse"
           },
           "three_d_secure": {
             "$ref": "#/components/schemas/3ds_result"
@@ -1424,21 +824,16 @@
             "readOnly": true
           },
           "brand": {
-            "description": "The card brand or network. Typically used in the response.",
-            "readOnly": true,
-            "$ref": "#/components/schemas/card_brand"
+            "$ref": "#/components/schemas/cardResponseBrand"
           },
           "expiry": {
-            "description": "The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6).",
-            "$ref": "#/components/schemas/date_year_month"
+            "$ref": "#/components/schemas/cardResponseExpiry"
           },
           "billing_address": {
-            "description": "The billing address for this card. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties.",
-            "$ref": "#/components/schemas/address_entity"
+            "$ref": "#/components/schemas/cardResponseBillingAddress"
           },
           "verification_status": {
-            "description": "Card Verification status.",
-            "$ref": "#/components/schemas/card_verification_status"
+            "$ref": "#/components/schemas/cardResponseVerificationStatus"
           },
           "verification": {
             "$ref": "#/components/schemas/card_verification_details"
@@ -1544,41 +939,7 @@
             "$ref": "#/components/schemas/country_code"
           },
           "address_details": {
-            "type": "object",
-            "title": "Address Details",
-            "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.<br/>For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-            "properties": {
-              "street_number": {
-                "type": "string",
-                "description": "The street number.",
-                "maxLength": 100
-              },
-              "street_name": {
-                "type": "string",
-                "description": "The street name. Just `Drury` in `Drury Lane`.",
-                "maxLength": 100
-              },
-              "street_type": {
-                "type": "string",
-                "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-                "maxLength": 100
-              },
-              "delivery_service": {
-                "type": "string",
-                "description": "The delivery service. Post office box, bag number, or post office name.",
-                "maxLength": 100
-              },
-              "building_name": {
-                "type": "string",
-                "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>.",
-                "maxLength": 100
-              },
-              "sub_building": {
-                "type": "string",
-                "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-                "maxLength": 100
-              }
-            }
+            "$ref": "#/components/schemas/address-details"
           }
         },
         "required": [
@@ -1591,23 +952,13 @@
         "title": "Shipping Details",
         "properties": {
           "name": {
-            "description": "The name of the person to whom to ship the items. Supports only the `full_name` property.",
-            "$ref": "#/components/schemas/name"
+            "$ref": "#/components/schemas/shippingDetailName"
           },
           "type": {
-            "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 255,
-            "pattern": "^[0-9A-Z_]+$",
-            "enum": [
-              "SHIPPING",
-              "PICKUP_IN_PERSON"
-            ]
+            "$ref": "#/components/schemas/shipping-detail-type"
           },
           "address": {
-            "description": "The address of the person to whom to ship the items. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties.",
-            "$ref": "#/components/schemas/address_portable"
+            "$ref": "#/components/schemas/shippingDetailAddress"
           }
         }
       },
@@ -1624,8 +975,7 @@
             "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$"
           },
           "shipping": {
-            "description": "The shipping address for the Payer.",
-            "$ref": "#/components/schemas/shipping_detail"
+            "$ref": "#/components/schemas/walletBaseShipping"
           },
           "permit_multiple_payment_tokens": {
             "type": "boolean",
@@ -1671,13 +1021,10 @@
         "description": "The customer who approves and pays for the order. The customer is also known as the payer.",
         "properties": {
           "email_address": {
-            "description": "The email address of the payer.",
-            "$ref": "#/components/schemas/email"
+            "$ref": "#/components/schemas/payerBaseEmailAddress"
           },
           "payer_id": {
-            "description": "The PayPal-assigned ID for the payer.",
-            "readOnly": true,
-            "$ref": "#/components/schemas/account_id"
+            "$ref": "#/components/schemas/payerBasePayerId"
           }
         }
       },
@@ -1734,8 +1081,7 @@
             "$ref": "#/components/schemas/phone_type"
           },
           "phone_number": {
-            "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). Supports only the `national_number` property.",
-            "$ref": "#/components/schemas/phone"
+            "$ref": "#/components/schemas/phoneWithTypePhoneNumber"
           }
         },
         "required": [
@@ -1763,15 +1109,7 @@
             "pattern": "([a-zA-Z0-9])"
           },
           "tax_id_type": {
-            "type": "string",
-            "description": "The customer's tax ID type.",
-            "minLength": 1,
-            "maxLength": 14,
-            "pattern": "^[A-Z0-9_]+$",
-            "enum": [
-              "BR_CPF",
-              "BR_CNPJ"
-            ]
+            "$ref": "#/components/schemas/tax-info-tax-id-type"
           }
         },
         "required": [
@@ -1789,28 +1127,7 @@
             "$ref": "#/components/schemas/payer_base"
           },
           {
-            "properties": {
-              "name": {
-                "description": "The name of the payer. Supports only the `given_name` and `surname` properties.",
-                "$ref": "#/components/schemas/name"
-              },
-              "phone": {
-                "description": "The phone number of the customer. Available only when you enable the **Contact Telephone Number** option in the <a href=\"https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-website-payments\">**Profile & Settings**</a> for the merchant's PayPal account. The `phone.phone_number` supports only `national_number`.",
-                "$ref": "#/components/schemas/phone_with_type"
-              },
-              "birth_date": {
-                "description": "The birth date of the payer in `YYYY-MM-DD` format.",
-                "$ref": "#/components/schemas/date_no_time"
-              },
-              "tax_info": {
-                "description": "The tax information of the payer. Required only for Brazilian payer's. Both `tax_id` and `tax_id_type` are required.",
-                "$ref": "#/components/schemas/tax_info"
-              },
-              "address": {
-                "description": "The address of the payer. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties. Also referred to as the billing address of the customer.",
-                "$ref": "#/components/schemas/address_portable"
-              }
-            }
+            "$ref": "#/components/schemas/payer-allof1"
           }
         ]
       },
@@ -1823,22 +1140,10 @@
             "$ref": "#/components/schemas/wallet_base"
           },
           {
-            "readOnly": true,
-            "$ref": "#/components/schemas/payer"
+            "$ref": "#/components/schemas/paypalWalletResponseAllof1"
           },
           {
-            "properties": {
-              "account_id": {
-                "readOnly": true,
-                "description": "The account identifier for a PayPal account.",
-                "$ref": "#/components/schemas/account_id"
-              },
-              "phone_number": {
-                "readOnly": true,
-                "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
-                "$ref": "#/components/schemas/phone"
-              }
-            }
+            "$ref": "#/components/schemas/paypal-wallet-response-allof2"
           }
         ]
       },
@@ -1851,19 +1156,10 @@
             "$ref": "#/components/schemas/wallet_base"
           },
           {
-            "readOnly": true,
-            "$ref": "#/components/schemas/payer"
+            "$ref": "#/components/schemas/venmoResponseAllof1"
           },
           {
-            "properties": {
-              "user_name": {
-                "description": "The Venmo username, as chosen by the user.",
-                "type": "string",
-                "pattern": "^[-a-zA-Z0-9_]*$",
-                "minLength": 1,
-                "maxLength": 50
-              }
-            }
+            "$ref": "#/components/schemas/venmo-response-allof2"
           }
         ]
       },
@@ -1895,9 +1191,7 @@
         "description": "The payment card to use to fund a payment. Can be a credit or debit card.",
         "properties": {
           "id": {
-            "description": "The PayPal-generated ID for the card.",
-            "readOnly": true,
-            "$ref": "#/components/schemas/instrument_id"
+            "$ref": "#/components/schemas/cardId"
           },
           "name": {
             "type": "string",
@@ -1914,8 +1208,7 @@
             "maxLength": 19
           },
           "expiry": {
-            "description": "The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6).",
-            "$ref": "#/components/schemas/date_year_month"
+            "$ref": "#/components/schemas/cardExpiry"
           },
           "security_code": {
             "type": "string",
@@ -1933,22 +1226,16 @@
             "readOnly": true
           },
           "card_type": {
-            "description": "The card brand or network. Typically used in the response.",
-            "readOnly": true,
-            "$ref": "#/components/schemas/card_brand",
-            "deprecated": true
+            "$ref": "#/components/schemas/cardCardType"
           },
           "type": {
-            "description": "The payment card type.",
-            "$ref": "#/components/schemas/card_type"
+            "$ref": "#/components/schemas/cardType"
           },
           "brand": {
-            "description": "The card brand or network. Typically used in the response.",
-            "$ref": "#/components/schemas/card_brand"
+            "$ref": "#/components/schemas/cardBrand"
           },
           "billing_address": {
-            "description": "The billing address for this card. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties.",
-            "$ref": "#/components/schemas/address_portable"
+            "$ref": "#/components/schemas/cardBillingAddress"
           }
         }
       },
@@ -1968,8 +1255,7 @@
         "description": "A resource representing a response for Apple Pay.",
         "properties": {
           "card": {
-            "description": "Card data for the card linked to the apple pay token.",
-            "$ref": "#/components/schemas/apple_pay_card"
+            "$ref": "#/components/schemas/applePayPaymentTokenResponseCard"
           }
         }
       },
@@ -1979,8 +1265,7 @@
         "type": "string",
         "default": "NOT_VERIFIED",
         "minLength": 1,
-        "maxLength": 255,
-        "enum": []
+        "maxLength": 255
       },
       "ach_debit_response-2": {
         "title": "ACH Debit Response",
@@ -1990,12 +1275,7 @@
             "$ref": "#/components/schemas/ach_debit_response"
           },
           {
-            "properties": {
-              "verification_status": {
-                "description": "ACH Debit Verification Status",
-                "$ref": "#/components/schemas/ach_debit_verification_status"
-              }
-            }
+            "$ref": "#/components/schemas/ach-debit-response2-allof1"
           }
         ]
       },
@@ -2005,8 +1285,7 @@
         "type": "object",
         "properties": {
           "ach_debit": {
-            "description": "ACH Debit Response.",
-            "$ref": "#/components/schemas/ach_debit_response-2"
+            "$ref": "#/components/schemas/bankResponseAchDebit"
           }
         }
       },
@@ -2028,18 +1307,7 @@
             "description": "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)."
           },
           "method": {
-            "type": "string",
-            "description": "The HTTP method required to make the related call.",
-            "enum": [
-              "GET",
-              "POST",
-              "PUT",
-              "DELETE",
-              "HEAD",
-              "CONNECT",
-              "OPTIONS",
-              "PATCH"
-            ]
+            "$ref": "#/components/schemas/link-description-method"
           }
         }
       },
@@ -2049,43 +1317,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "The PayPal-generated ID for the vault token.",
-            "$ref": "#/components/schemas/vault_id"
+            "$ref": "#/components/schemas/paymentTokenResponseId"
           },
           "customer": {
-            "description": "Customer in merchant's or partner's system of records.",
-            "$ref": "#/components/schemas/customer"
+            "$ref": "#/components/schemas/paymentTokenResponseCustomer"
           },
           "payment_source": {
-            "description": "The vaulted payment method details.",
-            "type": "object",
-            "properties": {
-              "card": {
-                "$ref": "#/components/schemas/card_response"
-              },
-              "paypal": {
-                "$ref": "#/components/schemas/paypal_wallet_response"
-              },
-              "venmo": {
-                "$ref": "#/components/schemas/venmo_response"
-              },
-              "apple_pay": {
-                "$ref": "#/components/schemas/apple_pay_payment_token_response"
-              },
-              "bank": {
-                "$ref": "#/components/schemas/bank_response"
-              }
-            }
+            "$ref": "#/components/schemas/payment-token-response-payment-source"
           },
           "links": {
-            "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
-            "readOnly": true,
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 32,
-            "items": {
-              "$ref": "#/components/schemas/link_description"
-            }
+            "$ref": "#/components/schemas/payment-token-response-links"
           }
         }
       },
@@ -2109,23 +1350,10 @@
             "$ref": "#/components/schemas/customer"
           },
           "payment_tokens": {
-            "type": "array",
-            "minItems": 0,
-            "maxItems": 64,
-            "items": {
-              "description": "Each token in this collection represents a payment token.",
-              "$ref": "#/components/schemas/payment_token_response"
-            }
+            "$ref": "#/components/schemas/paymentTokensList"
           },
           "links": {
-            "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
-            "readOnly": true,
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 32,
-            "items": {
-              "$ref": "#/components/schemas/link_description"
-            }
+            "$ref": "#/components/schemas/customer-vault-payment-tokens-response-links"
           }
         }
       },
@@ -2152,20 +1380,10 @@
             "readOnly": true
           },
           "details": {
-            "type": "array",
-            "description": "An array of additional details about the error.",
-            "items": {
-              "$ref": "#/components/schemas/error_details"
-            }
+            "$ref": "#/components/schemas/error-details"
           },
           "links": {
-            "type": "array",
-            "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
-            "readOnly": true,
-            "items": {
-              "$ref": "#/components/schemas/link_description",
-              "readOnly": true
-            }
+            "$ref": "#/components/schemas/error-links"
           }
         },
         "required": [
@@ -2212,8 +1430,7 @@
             "pattern": "^.*$"
           },
           "locale": {
-            "description": "The BCP 47-formatted locale of pages that the PayPal vaulting experience shows. PayPal supports a five-character code. For example, `DA-DK`, `HE-IL`, `ID-ID`, `JA-JP`, `NO-NO`, `PT-BR`, `RU-RU`, `SV-SE`, `TH-TH`, `ZH-CN`, `ZH-HK`, or `ZH-TW`.",
-            "$ref": "#/components/schemas/language"
+            "$ref": "#/components/schemas/experienceContextLocale"
           },
           "return_url": {
             "type": "string",
@@ -2238,8 +1455,7 @@
             "pattern": "^[0-9A-Z_]+$"
           },
           "vault_instruction": {
-            "description": "Vault Instruction on action to be performed after a successful payer approval.",
-            "$ref": "#/components/schemas/vault_instruction"
+            "$ref": "#/components/schemas/experienceContextVaultInstruction"
           }
         }
       },
@@ -2251,15 +1467,7 @@
             "$ref": "#/components/schemas/card"
           },
           {
-            "properties": {
-              "verification_method": {
-                "description": "The API caller can opt in to verify the payment token through PayPal offered verification services (e.g. Smart Dollar Auth, 3DS).",
-                "$ref": "#/components/schemas/card_verification_method"
-              },
-              "experience_context": {
-                "$ref": "#/components/schemas/experience_context"
-              }
-            }
+            "$ref": "#/components/schemas/card-request-allof1"
           }
         ]
       },
@@ -2277,18 +1485,10 @@
             "pattern": "^[0-9A-Z_-]+$"
           },
           "type": {
-            "type": "string",
-            "description": "The tokenization method that generated the ID.",
-            "minLength": 1,
-            "maxLength": 255,
-            "pattern": "^[0-9A-Z_-]+$",
-            "enum": [
-              "BILLING_AGREEMENT"
-            ]
+            "$ref": "#/components/schemas/token-id-request-type"
           },
           "attributes": {
-            "description": "The auxiliary details of the token.",
-            "$ref": "#/components/schemas/token_attributes"
+            "$ref": "#/components/schemas/tokenIdRequestAttributes"
           }
         },
         "required": [
@@ -2303,21 +1503,10 @@
         "type": "object",
         "properties": {
           "customer": {
-            "description": "Customer in merchant's or partner's system of records.",
-            "$ref": "#/components/schemas/customer"
+            "$ref": "#/components/schemas/paymentTokenRequestCustomer"
           },
           "payment_source": {
-            "title": "Payment source request",
-            "description": "The payment method to vault with the instrument details.",
-            "type": "object",
-            "properties": {
-              "card": {
-                "$ref": "#/components/schemas/card_request"
-              },
-              "token": {
-                "$ref": "#/components/schemas/token_id_request"
-              }
-            }
+            "$ref": "#/components/schemas/payment-source-request"
           },
           "metadata": {
             "$ref": "#/components/schemas/metadata"
@@ -2336,11 +1525,7 @@
             "$ref": "#/components/schemas/wallet_base"
           },
           {
-            "properties": {
-              "experience_context": {
-                "$ref": "#/components/schemas/experience_context"
-              }
-            }
+            "$ref": "#/components/schemas/paypal-wallet-request-allof1"
           }
         ]
       },
@@ -2353,11 +1538,7 @@
             "$ref": "#/components/schemas/wallet_base"
           },
           {
-            "properties": {
-              "experience_context": {
-                "$ref": "#/components/schemas/experience_context"
-              }
-            }
+            "$ref": "#/components/schemas/venmo-request-allof1"
           }
         ]
       },
@@ -2367,25 +1548,10 @@
         "type": "object",
         "properties": {
           "customer": {
-            "description": "Customer in merchant's or partner's system of records.",
-            "$ref": "#/components/schemas/customer"
+            "$ref": "#/components/schemas/setupTokenRequestCustomer"
           },
           "payment_source": {
-            "description": "The payment method to vault with the instrument details.",
-            "properties": {
-              "card": {
-                "$ref": "#/components/schemas/card_request"
-              },
-              "paypal": {
-                "$ref": "#/components/schemas/paypal_wallet_request"
-              },
-              "venmo": {
-                "$ref": "#/components/schemas/venmo_request"
-              },
-              "token": {
-                "$ref": "#/components/schemas/token_id_request"
-              }
-            }
+            "$ref": "#/components/schemas/setup-token-request-payment-source"
           },
           "metadata": {
             "$ref": "#/components/schemas/metadata"
@@ -2416,46 +1582,887 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "The PayPal-generated ID for the vault token.",
-            "$ref": "#/components/schemas/vault_id"
+            "$ref": "#/components/schemas/setupTokenResponseId"
           },
           "ordinal": {
-            "description": "The ordinal number of customers' payment source for sorting.",
-            "$ref": "#/components/schemas/ordinal"
+            "$ref": "#/components/schemas/setupTokenResponseOrdinal"
           },
           "customer": {
-            "description": "Customer in merchant's or partner's system of records.",
-            "$ref": "#/components/schemas/customer"
+            "$ref": "#/components/schemas/setupTokenResponseCustomer"
           },
           "status": {
-            "description": "The status of the payment token.",
-            "$ref": "#/components/schemas/payment_token_status"
+            "$ref": "#/components/schemas/setupTokenResponseStatus"
           },
           "payment_source": {
-            "description": "The setup payment method details.",
-            "properties": {
-              "card": {
-                "$ref": "#/components/schemas/card_response"
-              },
-              "paypal": {
-                "$ref": "#/components/schemas/paypal_wallet_response"
-              },
-              "venmo": {
-                "$ref": "#/components/schemas/venmo_response"
-              }
-            }
+            "$ref": "#/components/schemas/setup-token-response-payment-source"
           },
           "links": {
-            "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
-            "readOnly": true,
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 32,
-            "items": {
-              "$ref": "#/components/schemas/link_description"
-            }
+            "$ref": "#/components/schemas/setup-token-response-links"
           }
         }
+      },
+      "address-details": {
+        "type": "object",
+        "title": "Address Details",
+        "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.<br/>For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+        "properties": {
+          "street_number": {
+            "type": "string",
+            "description": "The street number.",
+            "maxLength": 100
+          },
+          "street_name": {
+            "type": "string",
+            "description": "The street name. Just `Drury` in `Drury Lane`.",
+            "maxLength": 100
+          },
+          "street_type": {
+            "type": "string",
+            "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+            "maxLength": 100
+          },
+          "delivery_service": {
+            "type": "string",
+            "description": "The delivery service. Post office box, bag number, or post office name.",
+            "maxLength": 100
+          },
+          "building_name": {
+            "type": "string",
+            "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>.",
+            "maxLength": 100
+          },
+          "sub_building": {
+            "type": "string",
+            "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+            "maxLength": 100
+          }
+        }
+      },
+      "payer-allof1": {
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/payerAllof1Name"
+          },
+          "phone": {
+            "$ref": "#/components/schemas/payerAllof1Phone"
+          },
+          "birth_date": {
+            "$ref": "#/components/schemas/payerAllof1BirthDate"
+          },
+          "tax_info": {
+            "$ref": "#/components/schemas/payerAllof1TaxInfo"
+          },
+          "address": {
+            "$ref": "#/components/schemas/payerAllof1Address"
+          }
+        }
+      },
+      "paypal-wallet-response-allof2": {
+        "properties": {
+          "account_id": {
+            "$ref": "#/components/schemas/paypalWalletResponseAllof2AccountId"
+          },
+          "phone_number": {
+            "$ref": "#/components/schemas/paypalWalletResponseAllof2PhoneNumber"
+          }
+        }
+      },
+      "venmo-response-allof2": {
+        "properties": {
+          "user_name": {
+            "description": "The Venmo username, as chosen by the user.",
+            "type": "string",
+            "pattern": "^[-a-zA-Z0-9_]*$",
+            "minLength": 1,
+            "maxLength": 50
+          }
+        }
+      },
+      "ach-debit-response2-allof1": {
+        "properties": {
+          "verification_status": {
+            "$ref": "#/components/schemas/achDebitResponse2Allof1VerificationStatus"
+          }
+        }
+      },
+      "payment-token-response-payment-source": {
+        "description": "The vaulted payment method details.",
+        "type": "object",
+        "properties": {
+          "card": {
+            "$ref": "#/components/schemas/card_response"
+          },
+          "paypal": {
+            "$ref": "#/components/schemas/paypal_wallet_response"
+          },
+          "venmo": {
+            "$ref": "#/components/schemas/venmo_response"
+          },
+          "apple_pay": {
+            "$ref": "#/components/schemas/apple_pay_payment_token_response"
+          },
+          "bank": {
+            "$ref": "#/components/schemas/bank_response"
+          }
+        }
+      },
+      "payment-token-response-links": {
+        "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
+        "readOnly": true,
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 32,
+        "items": {
+          "$ref": "#/components/schemas/link_description"
+        }
+      },
+      "paymentTokensList": {
+        "type": "array",
+        "minItems": 0,
+        "maxItems": 64,
+        "items": {
+          "$ref": "#/components/schemas/paymenttokenslistItems"
+        }
+      },
+      "customer-vault-payment-tokens-response-links": {
+        "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
+        "readOnly": true,
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 32,
+        "items": {
+          "$ref": "#/components/schemas/link_description"
+        }
+      },
+      "error-details": {
+        "type": "array",
+        "description": "An array of additional details about the error.",
+        "items": {
+          "$ref": "#/components/schemas/error_details"
+        }
+      },
+      "error-links": {
+        "type": "array",
+        "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
+        "readOnly": true,
+        "items": {
+          "$ref": "#/components/schemas/errorLinksItems"
+        }
+      },
+      "card-request-allof1": {
+        "properties": {
+          "verification_method": {
+            "$ref": "#/components/schemas/cardRequestAllof1VerificationMethod"
+          },
+          "experience_context": {
+            "$ref": "#/components/schemas/experience_context"
+          }
+        }
+      },
+      "payment-source-request": {
+        "title": "Payment source request",
+        "description": "The payment method to vault with the instrument details.",
+        "type": "object",
+        "properties": {
+          "card": {
+            "$ref": "#/components/schemas/card_request"
+          },
+          "token": {
+            "$ref": "#/components/schemas/token_id_request"
+          }
+        }
+      },
+      "paypal-wallet-request-allof1": {
+        "properties": {
+          "experience_context": {
+            "$ref": "#/components/schemas/experience_context"
+          }
+        }
+      },
+      "venmo-request-allof1": {
+        "properties": {
+          "experience_context": {
+            "$ref": "#/components/schemas/experience_context"
+          }
+        }
+      },
+      "setup-token-request-payment-source": {
+        "description": "The payment method to vault with the instrument details.",
+        "properties": {
+          "card": {
+            "$ref": "#/components/schemas/card_request"
+          },
+          "paypal": {
+            "$ref": "#/components/schemas/paypal_wallet_request"
+          },
+          "venmo": {
+            "$ref": "#/components/schemas/venmo_request"
+          },
+          "token": {
+            "$ref": "#/components/schemas/token_id_request"
+          }
+        }
+      },
+      "setup-token-response-payment-source": {
+        "description": "The setup payment method details.",
+        "properties": {
+          "card": {
+            "$ref": "#/components/schemas/card_response"
+          },
+          "paypal": {
+            "$ref": "#/components/schemas/paypal_wallet_response"
+          },
+          "venmo": {
+            "$ref": "#/components/schemas/venmo_response"
+          }
+        }
+      },
+      "setup-token-response-links": {
+        "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
+        "readOnly": true,
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 32,
+        "items": {
+          "$ref": "#/components/schemas/link_description"
+        }
+      },
+      "processor-response-avs-code": {
+        "description": "The address verification code for Visa, Discover, Mastercard, or American Express transactions.",
+        "type": "string",
+        "readOnly": true,
+        "enum": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "I",
+          "M",
+          "N",
+          "P",
+          "R",
+          "S",
+          "U",
+          "W",
+          "X",
+          "Y",
+          "Z",
+          "Null",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "processor-response-cvv-code": {
+        "description": "The card verification value code for for Visa, Discover, Mastercard, or American Express.",
+        "type": "string",
+        "readOnly": true,
+        "enum": [
+          "E",
+          "I",
+          "M",
+          "N",
+          "P",
+          "S",
+          "U",
+          "X",
+          "All others",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "processor-response-response-code": {
+        "description": "Processor response code for the non-PayPal payment processor errors.",
+        "type": "string",
+        "readOnly": true,
+        "enum": [
+          "0000",
+          "00N7",
+          "0100",
+          "0390",
+          "0500",
+          "0580",
+          "0800",
+          "0880",
+          "0R00",
+          "1000",
+          "10BR",
+          "1300",
+          "1310",
+          "1312",
+          "1317",
+          "1320",
+          "1330",
+          "1335",
+          "1340",
+          "1350",
+          "1360",
+          "1370",
+          "1380",
+          "1382",
+          "1384",
+          "1390",
+          "1393",
+          "5100",
+          "5110",
+          "5120",
+          "5130",
+          "5135",
+          "5140",
+          "5150",
+          "5160",
+          "5170",
+          "5180",
+          "5190",
+          "5200",
+          "5210",
+          "5400",
+          "5500",
+          "5650",
+          "5700",
+          "5710",
+          "5800",
+          "5900",
+          "5910",
+          "5920",
+          "5930",
+          "6300",
+          "7600",
+          "7700",
+          "7710",
+          "7800",
+          "7900",
+          "8000",
+          "8010",
+          "8020",
+          "8030",
+          "8100",
+          "8110",
+          "8220",
+          "9100",
+          "9500",
+          "9510",
+          "9520",
+          "9530",
+          "9540",
+          "9600",
+          "PCNR",
+          "PCVV",
+          "PPAD",
+          "PPAE",
+          "PPAG",
+          "PPAI",
+          "PPAR",
+          "PPAU",
+          "PPAV",
+          "PPAX",
+          "PPBG",
+          "PPC2",
+          "PPCE",
+          "PPCO",
+          "PPCR",
+          "PPCT",
+          "PPCU",
+          "PPD3",
+          "PPDC",
+          "PPDI",
+          "PPDV",
+          "PPEF",
+          "PPEL",
+          "PPER",
+          "PPEX",
+          "PPFE",
+          "PPFI",
+          "PPFR",
+          "PPFV",
+          "PPGR",
+          "PPH1",
+          "PPIF",
+          "PPII",
+          "PPIM",
+          "PPIT",
+          "PPLR",
+          "PPLS",
+          "PPMB",
+          "PPMC",
+          "PPMD",
+          "PPNC",
+          "PPNL",
+          "PPNT",
+          "PPPH",
+          "PPPI",
+          "PPPM",
+          "PPQC",
+          "PPRE",
+          "PPRF",
+          "PPRR",
+          "PPS0",
+          "PPS1",
+          "PPS2",
+          "PPS3",
+          "PPS4",
+          "PPS5",
+          "PPS6",
+          "PPSC",
+          "PPSD",
+          "PPSE",
+          "PPTE",
+          "PPTF",
+          "PPTI",
+          "PPTR",
+          "PPTT",
+          "PPTV",
+          "PPUA",
+          "PPUC",
+          "PPUE",
+          "PPUI",
+          "PPUP",
+          "PPUR",
+          "PPVC",
+          "PPVE",
+          "PPVT"
+        ]
+      },
+      "processor-response-payment-advice-code": {
+        "description": "The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes.",
+        "type": "string",
+        "readOnly": true,
+        "enum": [
+          "01",
+          "02",
+          "03",
+          "21"
+        ]
+      },
+      "shipping-detail-type": {
+        "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255,
+        "pattern": "^[0-9A-Z_]+$",
+        "enum": [
+          "SHIPPING",
+          "PICKUP_IN_PERSON"
+        ]
+      },
+      "tax-info-tax-id-type": {
+        "type": "string",
+        "description": "The customer's tax ID type.",
+        "minLength": 1,
+        "maxLength": 14,
+        "pattern": "^[A-Z0-9_]+$",
+        "enum": [
+          "BR_CPF",
+          "BR_CNPJ"
+        ]
+      },
+      "link-description-method": {
+        "type": "string",
+        "description": "The HTTP method required to make the related call.",
+        "enum": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ]
+      },
+      "token-id-request-type": {
+        "type": "string",
+        "description": "The tokenization method that generated the ID.",
+        "minLength": 1,
+        "maxLength": 255,
+        "pattern": "^[0-9A-Z_-]+$",
+        "enum": [
+          "BILLING_AGREEMENT"
+        ]
+      },
+      "customerId": {
+        "description": "The unique ID for a customer in merchant's or partner's system of records.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/merchant_partner_customer_id"
+          }
+        ]
+      },
+      "cardVerificationDetailsTime": {
+        "description": "The date and time when the instrument was verified.",
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/date_time"
+          }
+        ]
+      },
+      "cardVerificationDetailsAmount": {
+        "description": "The amount used for card verification.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/money"
+          }
+        ]
+      },
+      "cardVerificationDetailsProcessorResponse": {
+        "description": "The processor information.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/processor_response"
+          }
+        ]
+      },
+      "cardResponseBrand": {
+        "description": "The card brand or network. Typically used in the response.",
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/card_brand"
+          }
+        ]
+      },
+      "cardResponseExpiry": {
+        "description": "The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/date_year_month"
+          }
+        ]
+      },
+      "cardResponseBillingAddress": {
+        "description": "The billing address for this card. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/address_entity"
+          }
+        ]
+      },
+      "cardResponseVerificationStatus": {
+        "description": "Card Verification status.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/card_verification_status"
+          }
+        ]
+      },
+      "shippingDetailName": {
+        "description": "The name of the person to whom to ship the items. Supports only the `full_name` property.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/name"
+          }
+        ]
+      },
+      "shippingDetailAddress": {
+        "description": "The address of the person to whom to ship the items. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/address_portable"
+          }
+        ]
+      },
+      "walletBaseShipping": {
+        "description": "The shipping address for the Payer.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/shipping_detail"
+          }
+        ]
+      },
+      "payerBaseEmailAddress": {
+        "description": "The email address of the payer.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/email"
+          }
+        ]
+      },
+      "payerBasePayerId": {
+        "description": "The PayPal-assigned ID for the payer.",
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/account_id"
+          }
+        ]
+      },
+      "phoneWithTypePhoneNumber": {
+        "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). Supports only the `national_number` property.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/phone"
+          }
+        ]
+      },
+      "paypalWalletResponseAllof1": {
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/payer"
+          }
+        ]
+      },
+      "venmoResponseAllof1": {
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/payer"
+          }
+        ]
+      },
+      "cardId": {
+        "description": "The PayPal-generated ID for the card.",
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/instrument_id"
+          }
+        ]
+      },
+      "cardExpiry": {
+        "description": "The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/date_year_month"
+          }
+        ]
+      },
+      "cardCardType": {
+        "description": "The card brand or network. Typically used in the response.",
+        "readOnly": true,
+        "deprecated": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/card_brand"
+          }
+        ]
+      },
+      "cardType": {
+        "description": "The payment card type.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/card_type"
+          }
+        ]
+      },
+      "cardBrand": {
+        "description": "The card brand or network. Typically used in the response.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/card_brand"
+          }
+        ]
+      },
+      "cardBillingAddress": {
+        "description": "The billing address for this card. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/address_portable"
+          }
+        ]
+      },
+      "applePayPaymentTokenResponseCard": {
+        "description": "Card data for the card linked to the apple pay token.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/apple_pay_card"
+          }
+        ]
+      },
+      "bankResponseAchDebit": {
+        "description": "ACH Debit Response.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ach_debit_response-2"
+          }
+        ]
+      },
+      "paymentTokenResponseId": {
+        "description": "The PayPal-generated ID for the vault token.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/vault_id"
+          }
+        ]
+      },
+      "paymentTokenResponseCustomer": {
+        "description": "Customer in merchant's or partner's system of records.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/customer"
+          }
+        ]
+      },
+      "experienceContextLocale": {
+        "description": "The BCP 47-formatted locale of pages that the PayPal vaulting experience shows. PayPal supports a five-character code. For example, `DA-DK`, `HE-IL`, `ID-ID`, `JA-JP`, `NO-NO`, `PT-BR`, `RU-RU`, `SV-SE`, `TH-TH`, `ZH-CN`, `ZH-HK`, or `ZH-TW`.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/language"
+          }
+        ]
+      },
+      "experienceContextVaultInstruction": {
+        "description": "Vault Instruction on action to be performed after a successful payer approval.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/vault_instruction"
+          }
+        ]
+      },
+      "tokenIdRequestAttributes": {
+        "description": "The auxiliary details of the token.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/token_attributes"
+          }
+        ]
+      },
+      "paymentTokenRequestCustomer": {
+        "description": "Customer in merchant's or partner's system of records.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/customer"
+          }
+        ]
+      },
+      "setupTokenRequestCustomer": {
+        "description": "Customer in merchant's or partner's system of records.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/customer"
+          }
+        ]
+      },
+      "setupTokenResponseId": {
+        "description": "The PayPal-generated ID for the vault token.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/vault_id"
+          }
+        ]
+      },
+      "setupTokenResponseOrdinal": {
+        "description": "The ordinal number of customers' payment source for sorting.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ordinal"
+          }
+        ]
+      },
+      "setupTokenResponseCustomer": {
+        "description": "Customer in merchant's or partner's system of records.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/customer"
+          }
+        ]
+      },
+      "setupTokenResponseStatus": {
+        "description": "The status of the payment token.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/payment_token_status"
+          }
+        ]
+      },
+      "payerAllof1Name": {
+        "description": "The name of the payer. Supports only the `given_name` and `surname` properties.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/name"
+          }
+        ]
+      },
+      "payerAllof1Phone": {
+        "description": "The phone number of the customer. Available only when you enable the **Contact Telephone Number** option in the <a href=\"https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-website-payments\">**Profile & Settings**</a> for the merchant's PayPal account. The `phone.phone_number` supports only `national_number`.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/phone_with_type"
+          }
+        ]
+      },
+      "payerAllof1BirthDate": {
+        "description": "The birth date of the payer in `YYYY-MM-DD` format.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/date_no_time"
+          }
+        ]
+      },
+      "payerAllof1TaxInfo": {
+        "description": "The tax information of the payer. Required only for Brazilian payer's. Both `tax_id` and `tax_id_type` are required.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tax_info"
+          }
+        ]
+      },
+      "payerAllof1Address": {
+        "description": "The address of the payer. Supports only the `address_line_1`, `address_line_2`, `admin_area_1`, `admin_area_2`, `postal_code`, and `country_code` properties. Also referred to as the billing address of the customer.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/address_portable"
+          }
+        ]
+      },
+      "paypalWalletResponseAllof2AccountId": {
+        "readOnly": true,
+        "description": "The account identifier for a PayPal account.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/account_id"
+          }
+        ]
+      },
+      "paypalWalletResponseAllof2PhoneNumber": {
+        "readOnly": true,
+        "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/phone"
+          }
+        ]
+      },
+      "achDebitResponse2Allof1VerificationStatus": {
+        "description": "ACH Debit Verification Status",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ach_debit_verification_status"
+          }
+        ]
+      },
+      "paymenttokenslistItems": {
+        "description": "Each token in this collection represents a payment token.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/payment_token_response"
+          }
+        ]
+      },
+      "errorLinksItems": {
+        "readOnly": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/link_description"
+          }
+        ]
+      },
+      "cardRequestAllof1VerificationMethod": {
+        "description": "The API caller can opt in to verify the payment token through PayPal offered verification services (e.g. Smart Dollar Auth, 3DS).",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/card_verification_method"
+          }
+        ]
       }
     },
     "examples": {
